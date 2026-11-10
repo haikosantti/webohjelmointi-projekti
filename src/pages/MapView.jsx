@@ -14,7 +14,7 @@ export default function MapView() {
       try {
         // Huom: emme käytä tässä searchString-hakusanaa, jotta saamme listan kaikista. 
         // Rajapinta palauttaa oletuksena ensimmäiset 100 osumaa.
-        const response = await fetch('/api/sports-places?typeCodes=2510&typeCodes=2520&fields=name,location');
+        const response = await fetch('/api/sports-places?typeCodes=2510&typeCodes=2520&typeCodes=1510&typeCodes=1520&fields=name,location&pageSize=100');
         const data = await response.json();
         
         console.log("Kartalle haettu data:", data);

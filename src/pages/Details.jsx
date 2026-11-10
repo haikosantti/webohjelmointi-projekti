@@ -1,69 +1,89 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 export default function Details() {
-  // 1. Luetaan jäähallin ID suoraan URL-osoitteesta
   const { id } = useParams();
-  
-  // 2. Tilat datalle ja latauksen seurannalle
   const [paikka, setPaikka] = useState(null);
-  const [ladataan, setLadataan] = useState(true);
 
-  // 3. useEffect suorittaa tämän koodin automaattisesti heti, kun sivu avataan
   useEffect(() => {
-    const haeYksittainenPaikka = async () => {
+    const haePaikanTiedot = async () => {
       try {
-        // Haetaan yksittäisen paikan tiedot. Huomaa /api/sports-places/id -rakenne!
+        // Tässä pyydämme Lipakselta vain sen yhden tietyn paikan tiedot ID:n perusteella
         const response = await fetch(`/api/sports-places/${id}`);
         const data = await response.json();
-        
-        console.log("Yksittäisen paikan data:", data);
         setPaikka(data);
       } catch (error) {
-        console.error("Virhe tiedonhaussa:", error);
-      } finally {
-        setLadataan(false); // Lataus on valmis, oli tulos mikä vain
+        console.error("Virhe yksittäisen paikan haussa:", error);
       }
     };
 
-    haeYksittainenPaikka();
-  }, [id]); // Päivitetään haku, jos id sattuisi muuttumaan
+    haePaikanTiedot();
+  }, [id]);
 
-  // 4. Mitä näytetään, kun dataa haetaan vielä verkosta
-  if (ladataan) {
-    return <div>Ladataan jäähallin tietoja...</div>;
-  }
-
-  // 5. Mitä näytetään, jos API ei jostain syystä palauttanutkaan dataa
+  // Näytetään Bootstrapin lataus-spinneri, kunnes data on saapunut
   if (!paikka) {
-    return <div>Tietoja ei löytynyt.</div>;
+    return (
+      <div className="text-center mt-5">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Ladataan...</span>
+        </div>
+        <p className="mt-3">Haetaan paikan tietoja...</p>
+      </div>
+    );
   }
 
-  // 6. Varsinaisen sivun piirtäminen, kun data on valmiina
   return (
-    <div>
-      <h2>{paikka.name}</h2>
-      
-      <div style={{ marginTop: '20px' }}>
-        <h3>Sijainti</h3>
-        <p>{paikka.location?.address}</p>
-        <p>{paikka.location?.postalCode} {paikka.location?.city?.name}</p>
-        
-        <h3>Lisätiedot</h3>
-        <ul>
-          <li><strong>Omistaja:</strong> {paikka.owner || 'Ei tiedossa'}</li>
-          <li><strong>Rakennusvuosi:</strong> {paikka.constructionYear || 'Ei tiedossa'}</li>
-          <li><strong>Puhelin:</strong> {paikka.phoneNumber || 'Ei ilmoitettu'}</li>
-        </ul>
-        
-        {/* Näytetään linkki vain, jos paikalla on verkkosivu */}
-        {paikka.www && (
-          <p style={{ marginTop: '20px' }}>
-            <a href={paikka.www} target="_blank" rel="noreferrer">
-              Siirry kohteen verkkosivuille
-            </a>
-          </p>
-        )}
+    <div className="mt-4">
+      {/* Tyylikäs takaisin-nappi */}
+      <Link to="/" className="btn btn-outline-secondary mb-4">
+        &larr; Takaisin hakuun
+      </Link>
+
+      {/* Bootstrapin kortti-komponentti luo siistin raamin tiedoille */}
+      <div className="card bg-dark border-secondary shadow-sm">
+        <div className="card-body p-4">
+          <h2 className="card-title fw-bold mb-3">{paikka.name}</h2>
+          
+          <div className="mb-4">
+            <span className="badge bg-primary me-2 fs-6">
+              {paikka.type?.name || 'Urheilupaikka'}
+            </span>
+            <span className="badge bg-secondary fs-6">
+              {paikka.location?.city?.name || 'Tuntematon kaupunki'}
+            </span>
+          </div>
+
+          <hr className="border-secondary" />
+
+          {/* Grid-järjestelmä jakaa tiedot kahteen sarakkeeseen isommilla ruuduilla */}
+          <div className="row mt-4">
+            <div className="col-md-6 mb-3">
+              <h5 className="fw-bold text-info">Sijainti ja yhteystiedot</h5>
+              <ul className="list-unstyled mt-3">
+                <li className="mb-2"><strong>Osoite:</strong> {paikka.location?.address || 'Ei ilmoitettu'}</li>
+                <li className="mb-2">
+                  <strong>Postitoimipaikka:</strong> {paikka.location?.postalCode} {paikka.location?.postalOffice}
+                </li>
+                {paikka.www && (
+                  <li className="mt-3">
+                    <a href={paikka.www} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-primary">
+                      Siirry verkkosivuille
+                    </a>
+                  </li>
+                )}
+              </ul>
+            </div>
+            
+            <div className="col-md-6">
+              <h5 className="fw-bold text-info">Lisätiedot</h5>
+              <ul className="list-unstyled mt-3">
+                <li className="mb-2"><strong>Omistaja:</strong> {paikka.owner || 'Ei ilmoitettu'}</li>
+                <li className="mb-2"><strong>Ylläpitäjä:</strong> {paikka.admin || 'Ei ilmoitettu'}</li>
+                <li className="mb-2"><strong>Valmistumisvuosi:</strong> {paikka.constructionYear || 'Ei tiedossa'}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

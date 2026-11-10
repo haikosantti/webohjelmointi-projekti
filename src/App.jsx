@@ -1,28 +1,34 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import MapView from './pages/MapView';
-import Details from './pages/Details';
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
+import MapView from "./pages/MapView";
+import Details from "./pages/Details";
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
-      {/* Tämä navigaatio näkyy jokaisella sivulla */}
-      <nav style={{ padding: '1rem', borderBottom: '1px solid #ccc' }}>
-        <h1>Jäähallitutka</h1>
-        <Link to="/" style={{ marginRight: '10px' }}>Haku</Link>
-        <Link to="/kartta">Karttakuvake</Link>
-      </nav>
+      <div>
+        {/* Bootstrapin tumma navigointipalkki */}
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
+          <div className="container">
+            <Link className="navbar-brand fw-bold text-primary" to="/">
+              🏒 Jäähallitutka
+            </Link>
+            <div className="navbar-nav flex-row gap-3">
+              <Link className="nav-link" to="/">Haku</Link>
+              <Link className="nav-link" to="/kartta">Kartta</Link>
+            </div>
+          </div>
+        </nav>
 
-      {/* Tämä alue vaihtuu sen mukaan, mitä linkkiä klikkaat */}
-      <div style={{ padding: '1rem' }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/kartta" element={<MapView />} />
-          <Route path="/paikka/:id" element={<Details />} />
-        </Routes>
+        {/* container keskittää sisällön ja jättää siistit reunukset */}
+        <div className="container">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/kartta" element={<MapView />} />
+            <Route path="/paikka/:id" element={<Details />} />
+          </Routes>
+        </div>
       </div>
     </BrowserRouter>
   );
 }
-
-export default App;
