@@ -8,8 +8,8 @@ export default function Details() {
   useEffect(() => {
     const haePaikanTiedot = async () => {
       try {
-        // Tässä pyydämme Lipakselta vain sen yhden tietyn paikan tiedot ID:n perusteella
-        const response = await fetch(`/api/sports-places/${id}`);
+        const kohdeUrl = `https://lipas.fi/api/sports-places/${id}`;
+        const response = await fetch(`https://api.codetabs.com/v1/proxy?quest=${kohdeUrl}`);
         const data = await response.json();
         setPaikka(data);
       } catch (error) {

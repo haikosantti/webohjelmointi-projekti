@@ -12,9 +12,9 @@ export default function MapView() {
   useEffect(() => {
     const haePaikatKartalle = async () => {
       try {
-        // Huom: emme käytä tässä searchString-hakusanaa, jotta saamme listan kaikista. 
         // Rajapinta palauttaa oletuksena ensimmäiset 100 osumaa.
-        const response = await fetch('/api/sports-places?typeCodes=2510&typeCodes=2520&typeCodes=1510&typeCodes=1520&fields=name,location&pageSize=100');
+        const kohdeUrl = 'https://lipas.fi/api/sports-places?typeCodes=2510&typeCodes=2520&typeCodes=1510&typeCodes=1520&fields=name,location&pageSize=100';
+        const response = await fetch(`https://api.codetabs.com/v1/proxy?quest=${kohdeUrl}`);
         const data = await response.json();
         
         console.log("Kartalle haettu data:", data);

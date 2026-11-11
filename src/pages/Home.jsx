@@ -8,7 +8,7 @@ export default function Home() {
 
   const etsiHallit = async () => {
     try {
-      // Oletus: Haetaan harjoitushallit (2510), kilpahallit (2520), tekojäät (1510) ja luonnonjäät (1520)
+      // Haetaan harjoitushallit (2510), kilpahallit (2520), tekojäät (1510) ja luonnonjäät (1520)
       let typeParams = 'typeCodes=2510&typeCodes=2520&typeCodes=1510&typeCodes=1520';
       
       if (valittuTyyppi === 'halli') {
@@ -20,7 +20,8 @@ export default function Home() {
       }
 
       // Lisätty &pageSize=100 (Lipaksen sallima maksimi), jotta tuloksia ei rajata kymmeneen!
-      const response = await fetch(`/api/sports-places?searchString=${hakusana}&${typeParams}&fields=name,location&pageSize=100`);
+      const kohdeUrl = `https://lipas.fi/api/sports-places?searchString=${hakusana}&${typeParams}&fields=name,location&pageSize=100`;
+      const response = await fetch(`https://api.codetabs.com/v1/proxy?quest=${kohdeUrl}`);
       const data = await response.json();
       setHallit(data);
     } catch (error) {
@@ -56,7 +57,7 @@ export default function Home() {
       <label className="btn btn-outline-primary" htmlFor="btnradio3">Vain tekojäät</label>
     </div>
 
-      {/* Bootstrapin tyylikäs hakurivi (d-flex laittaa osat vierekkäin) */}
+      {/* Bootstrapin hakurivi */}
       <div className="d-flex gap-2 mb-4" style={{ maxWidth: '500px' }}>
         <input 
           type="text" 
@@ -70,7 +71,7 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Moderni klikattava lista hakutuloksille */}
+      {/* klikattava lista hakutuloksille */}
       <div className="list-group" style={{ maxWidth: '600px' }}>
         {Array.isArray(hallit) && hallit.map((halli) => (
           <Link 

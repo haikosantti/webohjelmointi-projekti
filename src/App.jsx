@@ -1,11 +1,11 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import MapView from "./pages/MapView";
 import Details from "./pages/Details";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div>
         {/* Bootstrapin tumma navigointipalkki */}
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
@@ -20,7 +20,7 @@ export default function App() {
           </div>
         </nav>
 
-        {/* container keskittää sisällön ja jättää siistit reunukset */}
+      
         <div className="container">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -29,6 +29,6 @@ export default function App() {
           </Routes>
         </div>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

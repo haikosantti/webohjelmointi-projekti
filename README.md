@@ -1,16 +1,24 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Jäähallitutka - Web-ohjelmointi 1 Lopputyö
 
-Currently, two official plugins are available:
+Jäähallitutka on Reactilla rakennettu verkkosovellus, jonka avulla käyttäjä voi etsiä Suomen jäähalleja, tekojäitä ja luonnonjääkenttiä. Sovellus hakee ajantasaista tietoa avoimesta Lipas-rajapinnasta (REST API).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Julkaistu versio
+Sovellus on julkaistu GitHub Pages -palvelussa:
+(https://haikosantti.github.io/webohjelmointi-projekti)
 
-## React Compiler
+## Käytetyt teknologiat
+- **React & Vite** (Komponenttipohjainen UI ja nopea kehitysympäristö)
+- **React Router** (Sivuston reititys: Haku, Kartta ja Tietosivu)
+- **Bootstrap 5** (Käyttöliittymän tyylittely, dark mode ja responsiivisuus)
+- **Leaflet & React-Leaflet** (Interaktiivinen karttanäkymä)
+- **Lipas API** (Datan asynkroninen haku `fetch` ja `async/await` -menetelmillä)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Ohjeet projektin suorittamiseen paikallisesti
 
-## Expanding the ESLint configuration
+Jos haluat ajaa projektia omalla koneellasi, seuraa näitä askeleita:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Lataa ja asenna riippuvuudet**
+   Avaa terminaali projektin kansiossa ja aja komento:
+   ```bash
+   npm install
